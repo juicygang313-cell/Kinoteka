@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кинотека — каталог фильмов</title>
+    <link rel="stylesheet" href="PW.css">
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar__top">
+            <div class="sidebar__logo">🎬 Кинотека</div>
+            <button type="button" class="sidebar__close" id="sidebarClose" title="Закрыть меню">✕</button>
+        </div>
+        <nav class="sidebar__nav">
+            <p class="sidebar__heading">Жанры</p>
+            <ul class="genre-list" id="genreList">
+                <li>
+                    <button type="button" class="genre-btn genre-btn--active" data-filter="all">
+                        <span class="genre-btn__icon">🎞️</span> Все фильмы
+                        <span class="genre-btn__count">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="genre-btn" data-filter="Драма">
+                        <span class="genre-btn__icon">🎭</span> Драма
+                        <span class="genre-btn__count">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="genre-btn" data-filter="Комедия">
+                        <span class="genre-btn__icon">😂</span> Комедия
+                        <span class="genre-btn__count">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="genre-btn" data-filter="Фантастика">
+                        <span class="genre-btn__icon">🚀</span> Фантастика
+                        <span class="genre-btn__count">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="genre-btn" data-filter="Боевик">
+                        <span class="genre-btn__icon">💥</span> Боевик
+                        <span class="genre-btn__count">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="genre-btn" data-filter="Мультфильм">
+                        <span class="genre-btn__icon">🧸</span> Мультфильм
+                        <span class="genre-btn__count">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="genre-btn" data-filter="Ужасы">
+                        <span class="genre-btn__icon">👻</span> Ужасы
+                        <span class="genre-btn__count">0</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar__footer">
+            <button type="button" class="theme-toggle" id="themeToggle">
+                <span class="theme-toggle__icon" id="themeIcon">🌙</span>
+                <span class="theme-toggle__text" id="themeText">Тёмная тема</span>
+            </button>
+        </div>
+    </aside>
+    <div class="page">
+        <header class="header">
+            <button type="button" class="burger" id="burgerBtn" title="Открыть меню">☰</button>
+            <h1 class="header__title">🎬 Кинотека</h1>
+            <p class="header__subtitle">Твой каталог фильмов: ищи по названию и жанру</p>
+        </header>
+        <main class="container">
+            <div class="duo-banner hidden" id="duoBanner">
+                <span class="duo-banner__icon">💞</span>
+                <p class="duo-banner__text" id="duoBannerText">Тебя пригласили на совместный просмотр</p>
+                <button type="button" class="duo-banner__close" id="duoBannerClose" title="Закрыть">✕</button>
+            </div>
+        <section class="week">
+            <div class="week__poster" id="weekPoster"></div>
+            <div class="week__info">
+                <span class="week__badge">🔥 Фильм недели</span>
+                <h2 class="week__title" id="weekTitle"></h2>
+                <p class="week__meta" id="weekMeta"></p>
+                <p class="week__text" id="weekText"></p>
+                <div class="week__buttons">
+                    <button type="button" class="btn" id="weekDetailsBtn">Подробнее</button>
+                    <button type="button" class="btn btn--secondary" id="weekTrailerBtn">▶ Трейлер</button>
+                </div>
+            </div>
+        </section>
+            <section class="controls">
+                <form class="controls__form" id="searchForm">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="controls__input"
+                        placeholder="Введите название фильма..."
+                    >
+                    <button type="submit" class="btn" id="searchBtn">Найти</button>
+                </form>
+                <div class="controls__filter">
+                    <label for="sortSelect" class="controls__label">Сортировка:</label>
+                    <select id="sortSelect" class="controls__select">
+                        <option value="default">По умолчанию</option>
+                        <option value="rating">По рейтингу</option>
+                        <option value="year">По году</option>
+                        <option value="title">По названию</option>
+                    </select>
+                    <button type="button" class="btn btn--secondary" id="resetBtn">Сбросить</button>
+                </div>
+            </section>
+            <section class="widgets">
+                <div class="widget">
+                    <h3 class="widget__title">⚡ Быстрые действия</h3>
+                    <button type="button" class="widget-btn" id="favFilterBtn">
+                        <span>❤️ Избранное</span>
+                        <span class="widget-btn__count" id="favCount">0</span>
+                    </button>
+                    <button type="button" class="widget-btn" id="randomBtn">
+                        <span>🎲 Что посмотреть?</span>
+                    </button>
+                </div>
+                <div class="widget">
+                    <h3 class="widget__title">📊 Статистика</h3>
+                    <ul class="stats">
+                        <li class="stats__row">
+                            <span>Всего фильмов</span>
+                            <b class="stats__value" id="statTotal">0</b>
+                        </li>
+                        <li class="stats__row">
+                            <span>Средний рейтинг</span>
+                            <b class="stats__value" id="statRating">0</b>
+                        </li>
+                        <li class="stats__row">
+                            <span>Жанров</span>
+                            <b class="stats__value" id="statGenres">0</b>
+                        </li>
+                    </ul>
+                </div>
+                <div class="widget widget--duo">
+                    <h3 class="widget__title">💞 Смотреть вместе</h3>
+                    <button type="button" class="widget-btn widget-btn--duo" id="inviteBtn">
+                        <span>💌 Создать приглашение</span>
+                    </button>
+                    <div class="invite hidden" id="inviteBox">
+                        <input type="text" class="invite__link" id="inviteLink" readonly>
+                        <button type="button" class="invite__copy" id="copyBtn">Копировать</button>
+                    </div>
+                    <p class="invite__status" id="inviteStatus">Выбери фильм и отправь ссылку своей половинке</p>
+                </div>
+                <div class="widget">
+                    <h3 class="widget__title">🏆 Топ-3 по рейтингу</h3>
+                    <ol class="mini-list mini-list--top" id="topList">
+                        <li class="mini-list__empty">Появится после загрузки</li>
+                    </ol>
+                </div>
+                <div class="widget widget--wide">
+                    <h3 class="widget__title">🕐 Недавно просмотренные</h3>
+                    <ul class="mini-list mini-list--row" id="recentList">
+                        <li class="mini-list__empty">Пока пусто, выбери фильм из списка</li>
+                    </ul>
+                </div>
+            </section>
+            <p class="counter" id="counter">Найдено фильмов: 0</p>
+            <div class="content">
+                <section class="movies">
+                    <h2 class="section-title">Список фильмов</h2>
+                    <ul class="movies__list" id="moviesList"></ul>
+                    <p class="movies__empty" id="emptyMessage">Фильмы не найдены 😔</p>
+                </section>
+                <aside class="details" id="details">
+                    <h2 class="section-title">Информация о фильме</h2>
+                    <div class="details__content" id="detailsContent">
+                        <p class="details__placeholder">Выберите фильм из списка, чтобы увидеть подробности</p>
+                    </div>
+                </aside>
+
+            </div>
+        </main>
+        <footer class="footer">
+            <p>© 2026 Кинотека</p>
+        </footer>
+    </div>
+    <div class="modal hidden" id="trailerModal">
+        <div class="modal__window">
+            <div class="modal__head">
+                <h3 class="modal__title" id="trailerTitle">Трейлер</h3>
+                <button type="button" class="modal__close" id="trailerClose" title="Закрыть">✕</button>
+            </div>
+            <div class="modal__player" id="trailerPlayer"></div>
+        </div>
+    </div>
+    <script src="PW.js"></script>
+</body>
+</html>
